@@ -11,7 +11,7 @@ You can configure to not break line:
 ## Example
 
 Template code:
-```html
+```php
 <p><?php
 	// Earth diameter: 6&nbsp;378&nbsp;km. (or&nbsp;6&nbsp;378&nbsp;000&nbsp;m)
 	echo $this->LineBreaks(
