@@ -8,11 +8,19 @@
  * the LICENSE.md file that are distributed with this source code.
  *
  * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/3.0.0/LICENCE.md
+ * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-class MvcCoreExt_ViewHelpers_LineBreaks
+namespace MvcCore\Ext\View\Helpers;
+
+class LineBreaks
 {
+	/**
+	 * MvcCore Extension - View Helper - Line Breaks - version:
+	 * Comparation by PHP function version_compare();
+	 * @see http://php.net/manual/en/function.version-compare.php
+	 */
+	const VERSION = '4.0.0';
 	/**
 	 * Weak words by international language code as array key.
 	 * Weak words are words, where you dont't want to have a line break after.
@@ -45,7 +53,7 @@ class MvcCoreExt_ViewHelpers_LineBreaks
 
 	/**
 	 * Singleton instance.
-	 * @var App_Views_Helpers_LineBreaks
+	 * @var \MvcCore\Ext\View\Helpers\LineBreaks
 	 */
 	protected static $instance;
 	
@@ -87,9 +95,9 @@ class MvcCoreExt_ViewHelpers_LineBreaks
 	 * instance inside controller is created, then you can configure
 	 * anything you want. If Controller contains static property 'Lang',
 	 * language for this view helper will be loaded from this property.
-	 * @param MvcCore_View $view
+	 * @param \MvcCore\View $view
 	 */
-	public function GetInstance (MvcCore_View & $view = NULL) {
+	public function GetInstance (\MvcCore\View & $view = NULL) {
 		if (!self::$instance) new self($view);
 		return self::$instance;
 	}
@@ -101,10 +109,10 @@ class MvcCoreExt_ViewHelpers_LineBreaks
 	 * instance inside controller is created, then you can configure 
 	 * anything you want. If Controller contains static property 'Lang',
 	 * language for this view helper will be loaded from this property.
-	 * @param MvcCore_View $view 
+	 * @param \MvcCore\View $view 
 	 */
-	public function __construct (MvcCore_View & $view = NULL) {
-		$ctrl = $view ? $view->Controller : MvcCore::GetInstance()->GetController();
+	public function __construct (\MvcCore\View & $view = NULL) {
+		$ctrl = $view ? $view->Controller : \MvcCore::GetInstance()->GetController();
 		// If controller class has public static property named
 		// 'Controller::$Lang', set current context lang automaticly ($this->lang).
 		if (property_exists(get_class($ctrl), 'Lang')) {
@@ -120,7 +128,7 @@ class MvcCoreExt_ViewHelpers_LineBreaks
 	 * separated by comma character without any space.
 	 * @param string $weekWords all weak words as string separated by comma character
 	 * @param string $lang optional, international language code
-	 * @return App_Views_Helpers_LineBreaks
+	 * @return \MvcCore\Ext\View\Helpers\LineBreaks
 	 */
 	public function SetWeekWords ($weekWords, $lang = '') {
 		if (!$lang) $lang = $this->lang;
@@ -133,7 +141,7 @@ class MvcCoreExt_ViewHelpers_LineBreaks
 	 * If language is not specified, there is used default language from controller instance.
 	 * @param string[] $shortcuts shortcuts as array of strings
 	 * @param string $lang optional, international language code
-	 * @return App_Views_Helpers_LineBreaks
+	 * @return \MvcCore\Ext\View\Helpers\LineBreaks
 	 */
 	public function SetShortcuts ($shortcuts, $lang = '') {
 		if (!$lang) $lang = $this->lang;
@@ -148,7 +156,7 @@ class MvcCoreExt_ViewHelpers_LineBreaks
 	 * All units has to be configured as single string with all units
 	 * separated by comma character without any space.
 	 * @param string $units all units as string separated by comma character
-	 * @return App_Views_Helpers_LineBreaks
+	 * @return \MvcCore\Ext\View\Helpers\LineBreaks
 	 */
 	public function SetUnits ($units) {
 		$this->Units = $units;
