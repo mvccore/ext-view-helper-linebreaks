@@ -20,7 +20,7 @@ class LineBreaks
 	 * Comparation by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '4.1.0';
+	const VERSION = '4.2.0';
 	/**
 	 * Weak words by international language code as array key.
 	 * Weak words are words, where you dont't want to have a line break after.
