@@ -20,11 +20,11 @@ class LineBreaks
 	 * Comparation by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '4.2.0';
+	const VERSION = '4.3.1';
 	/**
 	 * Weak words by international language code as array key.
 	 * Weak words are words, where you dont't want to have a line break after.
-	 * Weak words have to be configured as string with all weak words separated 
+	 * Weak words have to be configured as string with all weak words separated
 	 * by comma character without any spaces.
 	 * @var array
 	 */
@@ -56,7 +56,7 @@ class LineBreaks
 	 * @var \MvcCore\Ext\View\Helpers\LineBreaks
 	 */
 	protected static $instance;
-	
+
     /**
      * Language used for text processing as default.
 	 * All text processing shoud be called with custom language value.
@@ -106,10 +106,10 @@ class LineBreaks
 	 * Create view helper instance.
 	 * To configure view helper instance, create it by this method
 	 * in your $baseController->preDispatch(); method, after view
-	 * instance inside controller is created, then you can configure 
+	 * instance inside controller is created, then you can configure
 	 * anything you want. If Controller contains static property 'Lang',
 	 * language for this view helper will be loaded from this property.
-	 * @param \MvcCore\View $view 
+	 * @param \MvcCore\View $view
 	 */
 	public function __construct (\MvcCore\View & $view = NULL) {
 		$ctrl = $view ? $view->Controller : \MvcCore::GetInstance()->GetController();
@@ -122,9 +122,9 @@ class LineBreaks
 	}
 
 	/**
-	 * Set weak words, where you need to place a HTML space entity, 
+	 * Set weak words, where you need to place a HTML space entity,
 	 * to not break line after each configured weak word in processing text.
-	 * All words has to be configured as single string with all weak words 
+	 * All words has to be configured as single string with all weak words
 	 * separated by comma character without any space.
 	 * @param string $weekWords all weak words as string separated by comma character
 	 * @param string $lang optional, international language code
@@ -164,7 +164,7 @@ class LineBreaks
 	}
 
 	/**
-	 * Get weak words as array of strings, units and shortcuts. 
+	 * Get weak words as array of strings, units and shortcuts.
 	 * as array of string for currently processed language.
 	 * @param string $lang international language code
 	 * @return array
@@ -189,7 +189,7 @@ class LineBreaks
 	}
 
 	/**
-	 * Process configured weak words and units and place HTML space entity 
+	 * Process configured weak words and units and place HTML space entity
 	 * where is necessary to not line break source text where it's not wanted.
 	 * @param string $text source text
 	 * @param string $lang optional, international language code
@@ -200,13 +200,13 @@ class LineBreaks
 		$word = "";
 		$lang = $lang ? $lang : $this->lang;
 		list($weekWords, $units, $shortcuts) = $this->getWeekWordsUnitsAndShortcuts($lang);
-		
+
 		// if there are one or more tab chars in source text, convert them into single space
 		$this->text = preg_replace("#\t+#mu", " ", $this->text);
 
 		// if there are one or more space chars in source text, convert them into single space
 		$this->text = preg_replace("#[ ]{2,}#mu", " ", $this->text);
-			
+
 		// for each week word
 		for ($i = 0, $l = count($weekWords); $i < $l; $i += 1) {
 			// load current week word into $word variable
@@ -223,13 +223,13 @@ class LineBreaks
 		for ($i = 0, $l = count($units); $i < $l; $i += 1) {
 			// load current unit into $word variable
 			$word = $units[$i];
-			// create regular expression pattern to search for unit(s), where is whitespace char before 
+			// create regular expression pattern to search for unit(s), where is whitespace char before
 			// and any number before that whitespace char
 			$regExp = "#([0-9])\\s(" . $word . ")#mu";
 			// process replacement for all founded whitespaces into fixed space html entity in source text
 			$this->text = preg_replace(
-				$regExp, 
-				"$1&nbsp;$2", 
+				$regExp,
+				"$1&nbsp;$2",
 				$this->text
 			);
 		}
@@ -249,7 +249,7 @@ class LineBreaks
 	/**
 	 * Process single weak word - place HTML space entity
 	 * where is necessary to not line break source text where it's not wanted.
-	 * @param string $word 
+	 * @param string $word
 	 * @return void
 	 */
 	protected function processWeakWord ($word) {
@@ -259,12 +259,12 @@ class LineBreaks
 		while (TRUE) {
 			$index = mb_strpos($text, ' ' . $word . ' ');
 			if ($index !== FALSE) {
-				// If there is any week word and basic whitespace 
+				// If there is any week word and basic whitespace
 				// before and after the week word in source text:
 				//	- take all surce text before week word including whitespace before week word,
 				//	- take week word
 				//	- add fixed space html entity
-				//	- and add all rest source text after week word word 
+				//	- and add all rest source text after week word word
 				//	  and whitespace char after week word
 				$text = mb_substr($text, 0, $index + 1) . $word . '&nbsp;' . mb_substr($text, $index + 1 + mb_strlen($word) + 1);
 				// move $index variable after position, where is source text allready processed
