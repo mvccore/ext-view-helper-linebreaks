@@ -8,19 +8,25 @@
  * the LICENSE.md file that are distributed with this source code.
  *
  * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\View\Helpers;
 
-class LineBreaks
+/**
+ * Responsibility - given text content processing to escape whitespace before/after selected words.
+ * - Single syllable conjunctions to escape whitespace after (configurable).
+ * - Common language shortcuts containing whitespaces to escape whitespace inside (configurable).
+ * - Units to escape whitespace after number and before unit (configurable).
+ */
+class LineBreaks extends \MvcCore\Ext\View\Helpers\AbstractHelper
 {
 	/**
 	 * MvcCore Extension - View Helper - Line Breaks - version:
 	 * Comparation by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '4.3.1';
+	const VERSION = '5.0.0-alpha';
 	/**
 	 * Weak words by international language code as array key.
 	 * Weak words are words, where you dont't want to have a line break after.
@@ -29,9 +35,12 @@ class LineBreaks
 	 * @var array
 	 */
 	public $WeekWords = array(
-		'en'	=> 'a,an,the,and,but,or,when,of,in,to,with',
-		// single syllable conjunctions for Czech/Slovak
-		"cs"	=> "a,ač,aj,ak,ať,ba,co,či,do,i,k,ke,ku,o,pro,při,s,sa,se,si,sú,v,ve,z,za,ze,že",
+		// single syllable conjunctions for English
+		'en'	=> 'a,an,the,for,and,nor,but,or,yet,so,if,than,then,as,once,till,when,shy,who,how,of,in,to,with',
+		// single syllable conjunctions for Deutsch
+		'de'	=> 'der,die,das,ein,an,in,am,zu,und,doch,als,ob,bis,da,daß',
+		// single syllable conjunctions for Czech/Slovak:-)
+		'cs'	=> "a,ač,aj,ak,ať,ba,co,či,do,i,k,ke,ku,o,pro,při,s,sa,se,si,sú,v,ve,z,za,ze,že",
 	);
 
 	/**
@@ -39,7 +48,7 @@ class LineBreaks
 	 * @var array
 	 */
 	public $Shortcuts = array(
-		"cs"	=> array('př. kr.', 'př. n. l.', 's. r. o.', 'a. s.', 'v. o. s.', 'o. s. ř.',),
+		'cs'	=> array('př. kr.', 'př. n. l.', 's. r. o.', 'a. s.', 'v. o. s.', 'o. s. ř.',),
 	);
 
 	/**
@@ -89,18 +98,26 @@ class LineBreaks
 	protected $shortcuts = array();
 
 	/**
-	 * Create view helper instance.
+	 * Create view helper instance as singleton.
 	 * To configure view helper instance, create it by this method
-	 * in your $baseController->preDispatch(); method, after view
-	 * instance inside controller is created, then you can configure
-	 * anything you want. If Controller contains static property 'Lang',
-	 * language for this view helper will be loaded from this property.
-	 * @param \MvcCore\View $view
+	 * in your base controller in `PreDispatch();` method.
+	 * After this singleton instance is created, then you can configure
+	 * anything you want.
+	 *
+	 * Example:
+	 *	`\MvcCore\Ext\View\Helpers\LineBreaks::GetInstance()
+	 *		->SetView($this->view)
+	 *		->SetWeekWords(...)
+	 *		->SetShortcuts(...)
+	 *		->SetUnits(...);`
+	 * @return \MvcCore\Ext\View\Helpers\LineBreaks
 	 */
-	public function GetInstance (\MvcCore\View & $view = NULL) {
-		if (!self::$instance) new self($view);
-		return self::$instance;
+	public static function & GetInstance () {
+		if (!static::$instance) static::$instance = new static();
+		return static::$instance;
 	}
+
+	public function __construct() {}
 
 	/**
 	 * Create view helper instance.
@@ -109,16 +126,11 @@ class LineBreaks
 	 * instance inside controller is created, then you can configure
 	 * anything you want. If Controller contains static property 'Lang',
 	 * language for this view helper will be loaded from this property.
-	 * @param \MvcCore\View $view
+	 * @param \MvcCore\View|\MvcCore\Interfaces\IView $view
 	 */
-	public function __construct (\MvcCore\View & $view = NULL) {
-		$ctrl = $view ? $view->Controller : \MvcCore::GetInstance()->GetController();
-		// If controller class has public static property named
-		// 'Controller::$Lang', set current context lang automaticly ($this->lang).
-		if (property_exists(get_class($ctrl), 'Lang')) {
-			$this->lang = $ctrl::$Lang;
-		}
-		self::$instance = $this;
+	public function & SetView (\MvcCore\Interfaces\IView & $view = NULL) {
+		parent::SetView($view);
+		$this->lang = $this->request->GetLang();
 	}
 
 	/**
@@ -206,7 +218,6 @@ class LineBreaks
 
 		// if there are one or more space chars in source text, convert them into single space
 		$this->text = preg_replace("#[ ]{2,}#mu", " ", $this->text);
-
 		// for each week word
 		for ($i = 0, $l = count($weekWords); $i < $l; $i += 1) {
 			// load current week word into $word variable
@@ -214,7 +225,7 @@ class LineBreaks
 			// process source text with current week word
 			$this->processWeakWord($word);
 			// convert first week word character into upper case (first word in sentence)
-			$word = mb_strtoupper(mb_substr($word, 0, 1)) + mb_substr($word, 1);
+			$word = mb_strtoupper(mb_substr($word, 0, 1)) . mb_substr($word, 1);
 			// process source text with current week word with first uppercased char
 			$this->processWeakWord($word);
 		}
@@ -276,5 +287,4 @@ class LineBreaks
 		}
 		$this->text = mb_substr($text, 1, mb_strlen($text) - 2);
 	}
-
 }
