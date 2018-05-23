@@ -11,7 +11,7 @@
  * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\View\Helpers;
+namespace MvcCore\Ext\Views\Helpers;
 
 /**
  * Responsibility - given text content processing to escape whitespace before/after selected words.
@@ -19,7 +19,7 @@ namespace MvcCore\Ext\View\Helpers;
  * - Common language shortcuts containing whitespaces to escape whitespace inside (configurable).
  * - Units to escape whitespace after number and before unit (configurable).
  */
-class LineBreaks extends \MvcCore\Ext\View\Helpers\AbstractHelper
+class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 {
 	/**
 	 * MvcCore Extension - View Helper - Line Breaks - version:
@@ -62,7 +62,7 @@ class LineBreaks extends \MvcCore\Ext\View\Helpers\AbstractHelper
 
 	/**
 	 * Singleton instance.
-	 * @var \MvcCore\Ext\View\Helpers\LineBreaks
+	 * @var \MvcCore\Ext\Views\Helpers\LineBreaks
 	 */
 	protected static $instance;
 
@@ -110,7 +110,7 @@ class LineBreaks extends \MvcCore\Ext\View\Helpers\AbstractHelper
 	 *		->SetWeekWords(...)
 	 *		->SetShortcuts(...)
 	 *		->SetUnits(...);`
-	 * @return \MvcCore\Ext\View\Helpers\LineBreaks
+	 * @return \MvcCore\Ext\Views\Helpers\LineBreaks
 	 */
 	public static function & GetInstance () {
 		if (!static::$instance) static::$instance = new static();
@@ -140,7 +140,7 @@ class LineBreaks extends \MvcCore\Ext\View\Helpers\AbstractHelper
 	 * separated by comma character without any space.
 	 * @param string $weekWords all weak words as string separated by comma character
 	 * @param string $lang optional, international language code
-	 * @return \MvcCore\Ext\View\Helpers\LineBreaks
+	 * @return \MvcCore\Ext\Views\Helpers\LineBreaks
 	 */
 	public function SetWeekWords ($weekWords, $lang = '') {
 		if (!$lang) $lang = $this->lang;
@@ -153,7 +153,7 @@ class LineBreaks extends \MvcCore\Ext\View\Helpers\AbstractHelper
 	 * If language is not specified, there is used default language from controller instance.
 	 * @param string[] $shortcuts shortcuts as array of strings
 	 * @param string $lang optional, international language code
-	 * @return \MvcCore\Ext\View\Helpers\LineBreaks
+	 * @return \MvcCore\Ext\Views\Helpers\LineBreaks
 	 */
 	public function SetShortcuts ($shortcuts, $lang = '') {
 		if (!$lang) $lang = $this->lang;
@@ -168,7 +168,7 @@ class LineBreaks extends \MvcCore\Ext\View\Helpers\AbstractHelper
 	 * All units has to be configured as single string with all units
 	 * separated by comma character without any space.
 	 * @param string $units all units as string separated by comma character
-	 * @return \MvcCore\Ext\View\Helpers\LineBreaks
+	 * @return \MvcCore\Ext\Views\Helpers\LineBreaks
 	 */
 	public function SetUnits ($units) {
 		$this->Units = $units;
