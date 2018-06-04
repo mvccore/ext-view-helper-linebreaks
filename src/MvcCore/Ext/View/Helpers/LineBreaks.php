@@ -34,22 +34,22 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * by comma character without any spaces.
 	 * @var array
 	 */
-	public $WeekWords = array(
+	public $WeekWords = [
 		// single syllable conjunctions for English
 		'en'	=> 'a,an,the,for,and,nor,but,or,yet,so,if,than,then,as,once,till,when,shy,who,how,of,in,to,with',
 		// single syllable conjunctions for Deutsch
 		'de'	=> 'der,die,das,ein,an,in,am,zu,und,doch,als,ob,bis,da,daß',
 		// single syllable conjunctions for Czech/Slovak:-)
 		'cs'	=> "a,ač,aj,ak,ať,ba,co,či,do,i,k,ke,ku,o,pro,při,s,sa,se,si,sú,v,ve,z,za,ze,že",
-	);
+	];
 
 	/**
 	 * Special shortcuts to not have any line break inside, keyed by language.
 	 * @var array
 	 */
-	public $Shortcuts = array(
-		'cs'	=> array('př. kr.', 'př. n. l.', 's. r. o.', 'a. s.', 'v. o. s.', 'o. s. ř.',),
-	);
+	public $Shortcuts = [
+		'cs'	=> ['př. kr.', 'př. n. l.', 's. r. o.', 'a. s.', 'v. o. s.', 'o. s. ř.',],
+	];
 
 	/**
 	 * Units are very short words, where you dont't want to have a line break before,
@@ -83,19 +83,19 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * Store with weak words exploded into single strings, keyed by language.
 	 * @var array
 	 */
-	protected $weekWords = array();
+	protected $weekWords = [];
 
 	/**
 	 * Exploded units as array of string to be processed in source text.
 	 * @var string[]
 	 */
-	protected $units = array();
+	protected $units = [];
 
 	/**
 	 * Prepared shortcuts with no-line breaking spaces, keyed by language.
 	 * @var string[]
 	 */
-	protected $shortcuts = array();
+	protected $shortcuts = [];
 
 	/**
 	 * Create view helper instance as singleton.
@@ -185,19 +185,19 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 		if (!isset($this->weekWords[$lang]) && isset($this->WeekWords[$lang])) {
 			$this->weekWords[$lang] = explode(',', $this->WeekWords[$lang]);
 		} else {
-			$this->weekWords[$lang] = array();
+			$this->weekWords[$lang] = [];
 		}
 		if (!$this->units) {
 			$this->units = explode(',', $this->Units);
 		}
 		if (!isset($this->shortcuts[$lang]) && isset($this->Shortcuts[$lang])) {
-			$shortcuts = array();
+			$shortcuts = [];
 			foreach ($this->Shortcuts[$lang] as $shortcut) $shortcuts[$shortcut] = str_replace(' ', '&nbsp;', $shortcut);
 			$this->shortcuts[$lang] = & $shortcuts;
 		} else {
-			$this->shortcuts[$lang] = array();
+			$this->shortcuts[$lang] = [];
 		}
-		return array($this->weekWords[$lang], $this->units, $this->shortcuts[$lang]);
+		return [$this->weekWords[$lang], $this->units, $this->shortcuts[$lang]];
 	}
 
 	/**
