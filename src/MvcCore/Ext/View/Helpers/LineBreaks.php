@@ -131,6 +131,7 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	public function & SetView (\MvcCore\Interfaces\IView & $view = NULL) {
 		parent::SetView($view);
 		$this->lang = $this->request->GetLang();
+		return $this;
 	}
 
 	/**
