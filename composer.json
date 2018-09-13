@@ -1,7 +1,7 @@
 {
 	"name": "mvccore/ext-view-helper-linebreaks",
 	"type": "library",
-	"description": "MvcCore Extension - View Helper - Line Breaks - processing any visible text content for non-line breaking spaces.",
+	"description": "MvcCore - Extension - View - Helper - Line Breaks - processing any visible text content for non-line breaking spaces.",
 	"keywords": [
 		"mvc", 
 		"mvccore", 
