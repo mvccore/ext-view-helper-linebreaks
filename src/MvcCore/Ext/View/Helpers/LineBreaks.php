@@ -126,9 +126,9 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * instance inside controller is created, then you can configure
 	 * anything you want. If Controller contains static property 'Lang',
 	 * language for this view helper will be loaded from this property.
-	 * @param \MvcCore\View|\MvcCore\Interfaces\IView $view
+	 * @param \MvcCore\View|\MvcCore\IView $view
 	 */
-	public function & SetView (\MvcCore\Interfaces\IView & $view = NULL) {
+	public function & SetView (\MvcCore\IView & $view = NULL) {
 		parent::SetView($view);
 		$this->lang = $this->request->GetLang();
 		return $this;
