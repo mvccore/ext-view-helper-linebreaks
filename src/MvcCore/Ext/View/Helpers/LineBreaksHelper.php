@@ -19,7 +19,7 @@ namespace MvcCore\Ext\Views\Helpers;
  * - Common language shortcuts containing whitespaces to escape whitespace inside (configurable).
  * - Units to escape whitespace after number and before unit (configurable).
  */
-class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
+class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 {
 	/**
 	 * MvcCore Extension - View Helper - Line Breaks - version:
@@ -34,7 +34,7 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * by comma character without any spaces.
 	 * @var array
 	 */
-	public $WeekWords = [
+	public static $WeekWordsDefault = [
 		// single syllable conjunctions for English
 		'en'	=> 'a,an,the,for,and,nor,but,or,yet,so,if,than,then,as,once,till,when,shy,who,how,of,in,to,with',
 		// single syllable conjunctions for Deutsch
@@ -47,7 +47,7 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * Special shortcuts to not have any line break inside, keyed by language.
 	 * @var array
 	 */
-	public $Shortcuts = [
+	public static $ShortcutsDefault = [
 		'cs'	=> ['př. kr.', 'př. n. l.', 's. r. o.', 'a. s.', 'v. o. s.', 'o. s. ř.',],
 	];
 
@@ -58,11 +58,11 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * by comma character without any spaces.
 	 * @var string
 	 */
-	public $Units = "%,‰,mm,cm,dm,m,km,g,dkg,kg,t,ar,ha,ml,dcl,l,cm²,m²,km²,cm³,m³,°C,°F,K";
+	public static $UnitsDefault = "%,‰,mm,cm,dm,m,km,g,dkg,kg,t,ar,ha,ml,dcl,l,cm²,m²,km²,cm³,m³,°C,°F,K";
 
 	/**
 	 * Singleton instance.
-	 * @var \MvcCore\Ext\Views\Helpers\LineBreaks
+	 * @var \MvcCore\Ext\Views\Helpers\LineBreaksHelper
 	 */
 	protected static $instance;
 
@@ -87,13 +87,13 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 
 	/**
 	 * Exploded units as array of string to be processed in source text.
-	 * @var string[]
+	 * @var \string[]
 	 */
 	protected $units = [];
 
 	/**
 	 * Prepared shortcuts with no-line breaking spaces, keyed by language.
-	 * @var string[]
+	 * @var array
 	 */
 	protected $shortcuts = [];
 
@@ -105,19 +105,17 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * anything you want.
 	 *
 	 * Example:
-	 *	`\MvcCore\Ext\View\Helpers\LineBreaks::GetInstance()
+	 *	`\MvcCore\Ext\View\Helpers\LineBreaksHelper::GetInstance()
 	 *		->SetView($this->view)
 	 *		->SetWeekWords(...)
 	 *		->SetShortcuts(...)
 	 *		->SetUnits(...);`
-	 * @return \MvcCore\Ext\Views\Helpers\LineBreaks
+	 * @return \MvcCore\Ext\Views\Helpers\LineBreaksHelper
 	 */
 	public static function & GetInstance () {
 		if (!static::$instance) static::$instance = new static();
 		return static::$instance;
 	}
-
-	public function __construct() {}
 
 	/**
 	 * Create view helper instance.
@@ -139,26 +137,30 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * to not break line after each configured weak word in processing text.
 	 * All words has to be configured as single string with all weak words
 	 * separated by comma character without any space.
-	 * @param string $weekWords all weak words as string separated by comma character
+	 * @param \string[]|string $weekWords all weak words as array of strings or string separated by comma character
 	 * @param string $lang optional, international language code
-	 * @return \MvcCore\Ext\Views\Helpers\LineBreaks
+	 * @return \MvcCore\Ext\Views\Helpers\LineBreaksHelper
 	 */
 	public function SetWeekWords ($weekWords, $lang = '') {
 		if (!$lang) $lang = $this->lang;
-		$this->WeekWords[$lang] = $weekWords;
+		if (is_array($weekWords)) {
+			$this->weekWords[$lang] = $weekWords;
+		} else {
+			$this->weekWords[$lang] = explode(',', (string) $weekWords);
+		}
 		return $this;
 	}
 
 	/**
 	 * Set special shortcuts for specific language to not have any line break inside.
 	 * If language is not specified, there is used default language from controller instance.
-	 * @param string[] $shortcuts shortcuts as array of strings
+	 * @param \string[] $shortcuts shortcuts as array of strings
 	 * @param string $lang optional, international language code
-	 * @return \MvcCore\Ext\Views\Helpers\LineBreaks
+	 * @return \MvcCore\Ext\Views\Helpers\LineBreaksHelper
 	 */
-	public function SetShortcuts ($shortcuts, $lang = '') {
+	public function SetShortcuts (array $shortcuts, $lang = '') {
 		if (!$lang) $lang = $this->lang;
-		$this->Shortcuts[$lang] = $shortcuts;
+		$this->shortcuts[$lang] = $shortcuts;
 		return $this;
 	}
 
@@ -168,11 +170,15 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * character before unit and whitespace before in source text.
 	 * All units has to be configured as single string with all units
 	 * separated by comma character without any space.
-	 * @param string $units all units as string separated by comma character
-	 * @return \MvcCore\Ext\Views\Helpers\LineBreaks
+	 * @param \string[]|string $units all units as array of strings or string separated by comma character
+	 * @return \MvcCore\Ext\Views\Helpers\LineBreaksHelper
 	 */
 	public function SetUnits ($units) {
-		$this->Units = $units;
+		if (is_array($units)) {
+			$this->units = $units;
+		} else {
+			$this->units = explode(',', (string) $units);
+		}
 		return $this;
 	}
 
@@ -183,22 +189,32 @@ class LineBreaks extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * @return array
 	 */
 	protected function getWeekWordsUnitsAndShortcuts ($lang) {
-		if (!isset($this->weekWords[$lang]) && isset($this->WeekWords[$lang])) {
-			$this->weekWords[$lang] = explode(',', $this->WeekWords[$lang]);
-		} else {
-			$this->weekWords[$lang] = [];
+		if (!isset($this->weekWords[$lang])) {
+			if (isset(static::$WeekWordsDefault[$lang])) {
+				$this->weekWords[$lang] = explode(',', static::$WeekWordsDefault[$lang]);
+			} else {
+				$this->weekWords[$lang] = [];
+			}
 		}
-		if (!$this->units) {
-			$this->units = explode(',', $this->Units);
+		if (!$this->units) 
+			$this->units = explode(',', static::$UnitsDefault);
+		if (!isset($this->shortcuts[$lang])) {
+			if (isset(static::$ShortcutsDefault[$lang])) {
+				$shortcuts = [];
+				/** @var $shortcutsLocalized array */
+				foreach (static::$ShortcutsDefault[$lang] as $shortcutsLocalized) 
+					foreach ($shortcutsLocalized as $shortcut)
+						$shortcuts[$shortcut] = str_replace(' ', '&nbsp;', $shortcut);
+				$this->shortcuts[$lang] = & $shortcuts;
+			} else {
+				$this->shortcuts[$lang] = [];
+			}
 		}
-		if (!isset($this->shortcuts[$lang]) && isset($this->Shortcuts[$lang])) {
-			$shortcuts = [];
-			foreach ($this->Shortcuts[$lang] as $shortcut) $shortcuts[$shortcut] = str_replace(' ', '&nbsp;', $shortcut);
-			$this->shortcuts[$lang] = & $shortcuts;
-		} else {
-			$this->shortcuts[$lang] = [];
-		}
-		return [$this->weekWords[$lang], $this->units, $this->shortcuts[$lang]];
+		return [
+			$this->weekWords[$lang], 
+			$this->units, 
+			$this->shortcuts[$lang]
+		];
 	}
 
 	/**
