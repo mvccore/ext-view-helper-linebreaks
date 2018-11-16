@@ -295,10 +295,10 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 				//	- and add all rest source text after week word word
 				//	  and whitespace char after week word
 				$text = mb_substr($text, 0, $index + 1) . $word . '&nbsp;' . mb_substr($text, $index + 1 + mb_strlen($word) + 1);
-				// move $index variable after position, where is source text allready processed
+				// move $index variable after position, where is source text already processed
 				$index += 1 + mb_strlen($word) + 6; // (6 - means length of space html entity: '&nbsp;'
 			} else {
-				// there is no other occurance of week word in source text
+				// there is no other occurrence of week word in source text
 				break;
 			}
 		}
