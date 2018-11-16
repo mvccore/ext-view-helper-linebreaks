@@ -23,7 +23,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 {
 	/**
 	 * MvcCore Extension - View Helper - Line Breaks - version:
-	 * Comparation by PHP function version_compare();
+	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
 	const VERSION = '5.0.0-alpha';
@@ -52,8 +52,8 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	];
 
 	/**
-	 * Units are very short words, where you dont't want to have a line break before,
-	 * where is any digit before catched unit word and space before catched unit word.
+	 * Units are very short words, where you don't want to have a line break before,
+	 * where is any digit before caught unit word and space before caught unit word.
 	 * Units have to be configured as string with all units separated
 	 * by comma character without any spaces.
 	 * @var string
@@ -68,7 +68,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 
     /**
      * Language used for text processing as default.
-	 * All text processing shoud be called with custom language value.
+	 * All text processing should be called with custom language value.
      * @var string
      */
     protected $lang = "";
@@ -243,7 +243,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 			$this->processWeakWord($word);
 			// convert first week word character into upper case (first word in sentence)
 			$word = mb_strtoupper(mb_substr($word, 0, 1)) . mb_substr($word, 1);
-			// process source text with current week word with first uppercased char
+			// process source text with current week word with first upper cased char
 			$this->processWeakWord($word);
 		}
 
