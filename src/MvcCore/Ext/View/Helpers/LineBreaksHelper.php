@@ -29,7 +29,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	const VERSION = '5.0.0-alpha';
 	/**
 	 * Weak words by international language code as array key.
-	 * Weak words are words, where you dont't want to have a line break after.
+	 * Weak words are words, where you don't want to have a line break after.
 	 * Weak words have to be configured as string with all weak words separated
 	 * by comma character without any spaces.
 	 * @var array
@@ -154,7 +154,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	/**
 	 * Set special shortcuts for specific language to not have any line break inside.
 	 * If language is not specified, there is used default language from controller instance.
-	 * @param \string[] $shortcuts shortcuts as array of strings
+	 * @param \string[] $shortcuts short cuts as array of strings
 	 * @param string $lang optional, international language code
 	 * @return \MvcCore\Ext\Views\Helpers\LineBreaksHelper
 	 */
@@ -167,7 +167,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	/**
 	 * Set units, where you need to place a HTML space entity,
 	 * to not break line before each configured unit where is founded digit
-	 * character before unit and whitespace before in source text.
+	 * character before unit and white space before in source text.
 	 * All units has to be configured as single string with all units
 	 * separated by comma character without any space.
 	 * @param \string[]|string $units all units as array of strings or string separated by comma character
@@ -247,14 +247,14 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 			$this->processWeakWord($word);
 		}
 
-		// for each unit(s), where is whitespace char before and any number before that whitespace char:
+		// for each unit(s), where is white space char before and any number before that white space char:
 		for ($i = 0, $l = count($units); $i < $l; $i += 1) {
 			// load current unit into $word variable
 			$word = $units[$i];
-			// create regular expression pattern to search for unit(s), where is whitespace char before
-			// and any number before that whitespace char
+			// create regular expression pattern to search for unit(s), where is white space char before
+			// and any number before that white space char
 			$regExp = "#([0-9])\\s(" . $word . ")#mu";
-			// process replacement for all founded whitespaces into fixed space html entity in source text
+			// process replacement for all founded white spaces into fixed space html entity in source text
 			$this->text = preg_replace(
 				$regExp,
 				"$1&nbsp;$2",
@@ -262,7 +262,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 			);
 		}
 
-		// for all special shortcuts - remove all line breaking whitespaces
+		// for all special shortcuts - remove all line breaking white spaces
 		foreach ($shortcuts as $sourceShortcut => $targetShortcut) {
 			$this->text = str_replace($sourceShortcut, $targetShortcut, $this->text);
 		}
@@ -283,17 +283,17 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	protected function processWeakWord ($word) {
 		$index = 0;
 		$text = ' ' . $this->text . ' ';
-		// go through infinite loop and process given week word word with html fixed spaces replacement
+		// go through infinite loop and process given week word with html fixed spaces replacement
 		while (TRUE) {
 			$index = mb_strpos($text, ' ' . $word . ' ');
 			if ($index !== FALSE) {
-				// If there is any week word and basic whitespace
+				// If there is any week word and basic white space
 				// before and after the week word in source text:
-				//	- take all surce text before week word including whitespace before week word,
+				//	- take all source text before week word including white space before week word,
 				//	- take week word
 				//	- add fixed space html entity
-				//	- and add all rest source text after week word word
-				//	  and whitespace char after week word
+				//	- and add all rest source text after week word
+				//	  and white space char after week word
 				$text = mb_substr($text, 0, $index + 1) . $word . '&nbsp;' . mb_substr($text, $index + 1 + mb_strlen($word) + 1);
 				// move $index variable after position, where is source text already processed
 				$index += 1 + mb_strlen($word) + 6; // (6 - means length of space html entity: '&nbsp;'
