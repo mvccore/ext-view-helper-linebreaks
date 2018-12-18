@@ -27,6 +27,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
 	const VERSION = '5.0.0-alpha';
+
 	/**
 	 * Weak words by international language code as array key.
 	 * Weak words are words, where you don't want to have a line break after.
