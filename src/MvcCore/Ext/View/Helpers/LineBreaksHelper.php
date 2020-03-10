@@ -115,7 +115,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * @static
 	 * @return \MvcCore\Ext\Views\Helpers\LineBreaksHelper
 	 */
-	public static function & GetInstance () {
+	public static function GetInstance () {
 		if (!static::$instance) static::$instance = new static();
 		return static::$instance;
 	}
@@ -129,7 +129,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * language for this view helper will be loaded from this property.
 	 * @param \MvcCore\View|\MvcCore\IView $view
 	 */
-	public function & SetView (\MvcCore\IView & $view = NULL) {
+	public function SetView (\MvcCore\IView $view = NULL) {
 		parent::SetView($view);
 		$this->lang = $this->request->GetLang();
 		return $this;
