@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
  * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
@@ -20,14 +20,14 @@ namespace MvcCore\Ext\Views\Helpers;
  * - Units to escape whitespace after number and before unit (configurable).
  * @method \MvcCore\Ext\Views\Helpers\LineBreaksHelper GetInstance()
  */
-class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
-{
+class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper {
+
 	/**
 	 * MvcCore Extension - View Helper - Line Breaks - version:
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.0.0-alpha';
+	const VERSION = '5.0.0';
 
 	/**
 	 * Weak words by international language code as array key.
@@ -68,12 +68,12 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 */
 	protected static $instance;
 
-    /**
-     * Language used for text processing as default.
+	/**
+	 * Language used for text processing as default.
 	 * All text processing should be called with custom language value.
-     * @var string
-     */
-    protected $lang = "";
+	 * @var string
+	 */
+	protected $lang = "";
 
 	/**
 	 * Source text currently processed.
@@ -127,7 +127,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper
 	 * instance inside controller is created, then you can configure
 	 * anything you want. If Controller contains static property 'Lang',
 	 * language for this view helper will be loaded from this property.
-	 * @param \MvcCore\View|\MvcCore\IView $view
+	 * @param \MvcCore\View $view
 	 */
 	public function SetView (\MvcCore\IView $view = NULL) {
 		parent::SetView($view);
