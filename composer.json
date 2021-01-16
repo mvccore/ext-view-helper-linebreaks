@@ -3,22 +3,22 @@
 	"type": "library",
 	"description": "MvcCore - Extension - View - Helper - Line Breaks - processing any visible text content for non-line breaking spaces.",
 	"keywords": [
-		"mvc", 
-		"mvccore", 
-		"framework", 
-		"extension", 
-		"plugin", 
-		"plug-in", 
-		"ext", 
-		"view", 
-		"helper", 
-		"viewhelper", 
-		"text", 
-		"new lines", 
-		"line breaks", 
-		"conjunctions", 
-		"units", 
-		"digits", 
+		"mvc",
+		"mvccore",
+		"framework",
+		"extension",
+		"plugin",
+		"plug-in",
+		"ext",
+		"view",
+		"helper",
+		"viewhelper",
+		"text",
+		"new lines",
+		"line breaks",
+		"conjunctions",
+		"units",
+		"digits",
 		"shortcuts"
 	],
 	"license": ["BSD-3-Clause"],
@@ -28,11 +28,13 @@
 	}],
 	"require": {
 		"php": ">=5.4.0",
-		"mvccore/mvccore": "dev-master",
-		"mvccore/ext-view-helper": "dev-master"
+		"mvccore/mvccore": "^5.0",
+		"mvccore/ext-view-helper": "^5.0"
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": [
+			"src/"
+		]
 	},
 	"minimum-stability": "dev"
 }
