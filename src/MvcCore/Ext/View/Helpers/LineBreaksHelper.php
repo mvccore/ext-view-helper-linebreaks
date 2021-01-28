@@ -27,7 +27,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.0.0';
+	const VERSION = '5.0.1';
 
 	/**
 	 * Weak words by international language code as array key.
@@ -205,9 +205,8 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper {
 			if (isset(static::$ShortcutsDefault[$lang])) {
 				$shortcuts = [];
 				/** @var $shortcutsLocalized array */
-				foreach (static::$ShortcutsDefault[$lang] as $shortcutsLocalized) 
-					foreach ($shortcutsLocalized as $shortcut)
-						$shortcuts[$shortcut] = str_replace(' ', '&nbsp;', $shortcut);
+				foreach (static::$ShortcutsDefault[$lang] as $shortcut) 
+					$shortcuts[$shortcut] = str_replace(' ', '&nbsp;', $shortcut);
 				$this->shortcuts[$lang] = & $shortcuts;
 			} else {
 				$this->shortcuts[$lang] = [];
