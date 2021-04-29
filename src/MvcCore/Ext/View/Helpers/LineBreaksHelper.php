@@ -204,7 +204,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper {
 		if (!isset($this->shortcuts[$lang])) {
 			if (isset(static::$ShortcutsDefault[$lang])) {
 				$shortcuts = [];
-				/** @var $shortcutsLocalized array */
+				/** @var array $shortcutsLocalized */
 				foreach (static::$ShortcutsDefault[$lang] as $shortcut) 
 					$shortcuts[$shortcut] = str_replace(' ', '&nbsp;', $shortcut);
 				$this->shortcuts[$lang] = & $shortcuts;
