@@ -27,7 +27,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.0.1';
+	const VERSION = '5.0.2';
 
 	/**
 	 * Weak words by international language code as array key.
@@ -42,7 +42,7 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper {
 		// single syllable conjunctions for Deutsch
 		'de'	=> 'der,die,das,ein,an,in,am,zu,und,doch,als,ob,bis,da,daß',
 		// single syllable conjunctions for Czech/Slovak:-)
-		'cs'	=> "a,ač,aj,ak,ať,ba,co,či,do,i,k,ke,ku,o,pro,při,s,sa,se,si,sú,v,ve,z,za,ze,že",
+		'cs'	=> "a,ač,aj,ak,ať,ba,co,či,do,i,k,ke,ku,o,od,pro,při,s,sa,se,si,sú,v,ve,z,za,ze,že",
 	];
 
 	/**
@@ -60,7 +60,9 @@ class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper {
 	 * by comma character without any spaces.
 	 * @var string
 	 */
-	public static $UnitsDefault = "%,‰,mm,cm,dm,m,km,g,dkg,kg,t,ar,ha,ml,dcl,l,cm²,m²,km²,cm³,m³,°C,°F,K";
+	public static $UnitsDefault = "%,‰,px,pt,in,ft,yd,mi,mm,cm,dm,m,km,g,dkg,kg,t,ar,ha,ml,dcl,l,cm²,m²,km²,cm³,m³,°C,°F,K";
+
+	// 
 
 	/**
 	 * Singleton instance.
