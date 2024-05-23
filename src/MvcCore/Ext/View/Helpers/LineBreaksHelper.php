@@ -18,7 +18,7 @@ namespace MvcCore\Ext\Views\Helpers;
  * - Single syllable conjunctions to escape whitespace after (configurable).
  * - Common language shortcuts containing whitespaces to escape whitespace inside (configurable).
  * - Units to escape whitespace after number and before unit (configurable).
- * @method \MvcCore\Ext\Views\Helpers\LineBreaksHelper GetInstance()
+ * @method static \MvcCore\Ext\Views\Helpers\LineBreaksHelper GetInstance()
  */
 class LineBreaksHelper extends \MvcCore\Ext\Views\Helpers\AbstractHelper {
 
